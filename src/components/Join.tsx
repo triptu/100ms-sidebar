@@ -36,7 +36,7 @@ export function Join() {
       }
       hmsActions.join(config);
       window.onunload = () => hmsActions.leave();
-      message.success("you're in room now", 2);
+      message.loading('taking you to the room...', 2);
     } catch (err) {
       const msg = (err as any).message || err;
       message.error(msg, 2);

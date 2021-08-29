@@ -4,7 +4,8 @@ import './index.css';
 import App from './App';
 import * as serviceWorkerRegistration from './serviceWorkerRegistration';
 import reportWebVitals from './reportWebVitals';
-import { HMSRoomProvider } from "@100mslive/hms-video-react";
+import { HMSRoomProvider } from '@100mslive/hms-video-react';
+import { pageWidth } from './utils/constants';
 
 ReactDOM.render(
   <React.StrictMode>
@@ -26,4 +27,4 @@ serviceWorkerRegistration.register();
 reportWebVitals();
 
 // eslint-disable-next-line no-restricted-globals
-window.resizeTo(300, screen.height);
+window.resizeTo(pageWidth, screen.height);

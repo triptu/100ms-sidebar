@@ -27,7 +27,7 @@ export function Notifications() {
         showInfo(`${notification.data.name} joined the room`);
         break;
       case HMSNotificationTypes.PEER_LEFT:
-        showInfo(`${notification.data.name} joined the room`);
+        showInfo(`${notification.data.name} left the room`);
         break;
     }
   }

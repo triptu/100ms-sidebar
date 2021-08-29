@@ -1,8 +1,5 @@
-import {
-  selectPeers,
-  useHMSStore,
-  VideoTile,
-} from '@100mslive/hms-video-react';
+import { selectPeers, useHMSStore } from '@100mslive/hms-video-react';
+import { VideoTile } from './VideoTile';
 
 export function VideoList() {
   const peers = useHMSStore(selectPeers);
@@ -10,10 +7,14 @@ export function VideoList() {
   return (
     <>
       {peers.map((peer) => {
+        console.log('rendering peer ', peer);
         return (
-          <div className={'videoTile'}>
-            <VideoTile peer={peer} objectFit={'contain'} />
-          </div>
+          peer.videoTrack &&
+          !peer.isLocal && (
+            <div key={peer.id} className={'videoTile'}>
+              <VideoTile peer={peer} />
+            </div>
+          )
         );
       })}
     </>
