@@ -4,10 +4,13 @@ import './index.css';
 import App from './App';
 import * as serviceWorkerRegistration from './serviceWorkerRegistration';
 import reportWebVitals from './reportWebVitals';
+import { HMSRoomProvider } from "@100mslive/hms-video-react";
 
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+    <HMSRoomProvider>
+      <App />
+    </HMSRoomProvider>
   </React.StrictMode>,
   document.getElementById('root')
 );

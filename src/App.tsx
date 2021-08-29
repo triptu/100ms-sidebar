@@ -1,24 +1,37 @@
-import React from 'react';
-import logo from './logo.svg';
+import React, { useEffect, useState } from 'react';
 import './App.css';
+import { Welcome } from './components/Welcome';
+import {
+  selectIsConnectedToRoom,
+  useHMSStore,
+} from '@100mslive/hms-video-react';
+import { Conference } from './components/Conference';
+import { Join } from './components/Join';
+
+function checkPWA() {
+  return window.matchMedia('(display-mode: standalone)').matches;
+}
+const initialCheck = checkPWA();
 
 function App() {
+  const [isOpenAsPWA, setIsOpenAsPWA] = useState(initialCheck);
+  const isConnected = useHMSStore(selectIsConnectedToRoom);
+  console.log('opened app', isOpenAsPWA, isConnected);
+
+  useEffect(() => {
+    window.addEventListener('appinstalled', () => {
+      setIsOpenAsPWA(checkPWA());
+    });
+    window
+      .matchMedia('(display-mode: standalone)')
+      .addEventListener('change', (evt) => {
+        setIsOpenAsPWA(evt.matches);
+      });
+  }, []);
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      {isConnected ? <Conference /> : isOpenAsPWA ? <Join /> : <Welcome />}
     </div>
   );
 }
