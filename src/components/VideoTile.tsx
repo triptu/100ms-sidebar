@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react';
+import React, { useEffect, useRef } from 'react';
 import {
   HMSPeer,
   selectCameraStreamByPeerID,
@@ -7,35 +7,48 @@ import {
 } from '@100mslive/hms-video-react';
 import { pageWidth } from '../utils/constants';
 import { motion } from 'framer-motion';
+import { useInView } from 'react-intersection-observer';
 
-export function VideoTile({ peer }: { peer: HMSPeer }) {
+function VideoTileBare({ peer }: { peer: HMSPeer }) {
   const videoRef = useRef(null);
   const hmsActions = useHMSActions();
   const track = useHMSStore(selectCameraStreamByPeerID(peer.id));
+  const [inViewRef, inView] = useInView({ threshold: 0.2 });
 
   useEffect(() => {
     if (videoRef.current && track) {
-      if (track.enabled) {
+      if (inView && track.enabled) {
         hmsActions.attachVideo(track.id, videoRef.current);
       } else {
         hmsActions.detachVideo(track.id, videoRef.current);
       }
     }
-  }, [track, hmsActions]);
+  }, [track, hmsActions, inView]);
 
   if (!track) {
     return null;
   }
   return (
     <motion.div
-      style={{ width: pageWidth }}
-      animate={{
-        scale: [1, 2, 2, 1, 1],
-        rotate: [0, 0, 270, 270, 0],
-        borderRadius: ['20%', '20%', '50%', '50%', '20%'],
-      }}
+      style={{ width: pageWidth, position: 'relative' }}
+      animate={{ scale: [0.5, 1], opacity: 1 }}
+      transition={{ duration: 0.5 }}
+      exit={{ scale: [1, 0.5], opacity: 0 }}
+      ref={inViewRef}
     >
-      <video width={pageWidth} ref={videoRef} autoPlay muted playsInline />
+      <video
+        style={{ position: 'relative', zIndex: 0 }}
+        width={pageWidth}
+        ref={videoRef}
+        autoPlay
+        muted
+        playsInline
+      />
+      <div style={{ position: 'absolute', top: 0, left: 0, zIndex: 1 }}>
+        <p style={{ color: 'black', fontSize: 20 }}>{peer.name}</p>
+      </div>
     </motion.div>
   );
 }
+
+export const VideoTile = React.memo(VideoTileBare);

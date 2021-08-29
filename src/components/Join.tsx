@@ -27,7 +27,6 @@ export function Join() {
 
   const join = async (values: FormInput) => {
     formStore.set(values);
-    const hide = message.loading('entering the room', 0);
     console.log('values', values);
     try {
       config.authToken = await getToken(values);
@@ -40,8 +39,6 @@ export function Join() {
     } catch (err) {
       const msg = (err as any).message || err;
       message.error(msg, 2);
-    } finally {
-      hide();
     }
   };
 
