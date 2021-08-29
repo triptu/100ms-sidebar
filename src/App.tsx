@@ -12,6 +12,7 @@ function checkPWA() {
   return window.matchMedia('(display-mode: standalone)').matches;
 }
 const initialCheck = checkPWA();
+const isDev = process.env.NODE_ENV === 'development';
 
 function App() {
   const [isOpenAsPWA, setIsOpenAsPWA] = useState(initialCheck);
@@ -31,7 +32,13 @@ function App() {
 
   return (
     <div className="App">
-      {isConnected ? <Conference /> : isOpenAsPWA ? <Join /> : <Welcome />}
+      {isConnected ? (
+        <Conference />
+      ) : isOpenAsPWA || isDev ? (
+        <Join />
+      ) : (
+        <Welcome />
+      )}
     </div>
   );
 }

@@ -47,7 +47,7 @@ export function Join() {
 
   return (
     <div className={'join-page'}>
-      <h3>Enter token to join a room</h3>
+      <h3>Fill below to join a room</h3>
       <Form name={'join-form'} onFinish={join} initialValues={initialValues}>
         <Form.Item
           name="name"

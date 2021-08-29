@@ -7,6 +7,8 @@ import reportWebVitals from './reportWebVitals';
 import { HMSRoomProvider } from '@100mslive/hms-video-react';
 import { pageWidth } from './utils/constants';
 
+const isDev = process.env.NODE_ENV === 'development';
+
 ReactDOM.render(
   <React.StrictMode>
     <HMSRoomProvider>
@@ -19,7 +21,11 @@ ReactDOM.render(
 // If you want your app to work offline and load faster, you can change
 // unregister() to register() below. Note this comes with some pitfalls.
 // Learn more about service workers: https://cra.link/PWA
-serviceWorkerRegistration.register();
+if (isDev) {
+  serviceWorkerRegistration.unregister();
+} else {
+  serviceWorkerRegistration.register();
+}
 
 // If you want to start measuring performance in your app, pass a function
 // to log results (for example: reportWebVitals(console.log))
