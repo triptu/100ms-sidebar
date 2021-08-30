@@ -33,4 +33,4 @@ if (isDev) {
 reportWebVitals();
 
 // eslint-disable-next-line no-restricted-globals
-window.resizeTo(pageWidth+10, screen.height);
+window.resizeTo(pageWidth+20, screen.height);
